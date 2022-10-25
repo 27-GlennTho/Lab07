@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     private Animation thisAnimation;
-    public GameObject player;
     public Rigidbody rb;
-    private float jumpForce=3.0f;
+    private float jumpForce=1.0f;
     public Vector3 jump;
     void Start()
     {
@@ -19,14 +18,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(player.y>=100)
-        {
-
-        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             thisAnimation.Play();
             rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            Debug.Log("ObstacleCollided");
+            SceneManager.LoadScene("GameOverScene");
+
         }
     }
 }
